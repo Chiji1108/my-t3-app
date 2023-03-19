@@ -43,20 +43,12 @@ const adapter = PrismaAdapter(prisma);
  */
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
-  // callbacks: {
-  //   session({ session, user }) {
-  //     if (session.user) {
-  //       session.user.id = user.id;
-  //       // session.user.role = user.role; <-- put other properties on the session here
-  //     }
-  //     return session;
-  //   },
-  // },
   adapter,
   providers: [
     SlackProvider({
       clientId: env.SLACK_CLIENT_ID,
       clientSecret: env.SLACK_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     CredentialsProvider({
       // The id of this credential provider. It's important to give an id because, in frontend we don't want to
