@@ -5,6 +5,7 @@ import {
   type DefaultSession,
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import SlackProvider from "next-auth/providers/slack";
 import { OAuth2Client } from "google-auth-library";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "~/env.mjs";
@@ -53,6 +54,10 @@ export const authOptions: NextAuthOptions = {
   // },
   adapter,
   providers: [
+    SlackProvider({
+      clientId: env.SLACK_CLIENT_ID,
+      clientSecret: env.SLACK_CLIENT_SECRET,
+    }),
     CredentialsProvider({
       // The id of this credential provider. It's important to give an id because, in frontend we don't want to
       // show anything about this provider in a normal login flow
@@ -76,7 +81,7 @@ export const authOptions: NextAuthOptions = {
           // The token received from the interface
           idToken: token,
           // This is the google ID of your application
-          audience: process.env.NEXT_PUBLIC_GOOGLE_ID,
+          audience: env.NEXT_PUBLIC_GOOGLE_ID,
         });
         const payload = ticket.getPayload(); // This is the user
 
