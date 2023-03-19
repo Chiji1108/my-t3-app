@@ -43,6 +43,7 @@ const adapter = PrismaAdapter(prisma);
  */
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
+  debug: true,
   adapter,
   providers: [
     SlackProvider({
